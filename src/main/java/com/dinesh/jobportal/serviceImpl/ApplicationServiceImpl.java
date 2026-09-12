@@ -20,6 +20,7 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import com.dinesh.jobportal.entity.ApplicationStatus;
+import com.dinesh.jobportal.service.EmailService;
 
 import java.io.File;
 import java.io.IOException;
@@ -42,6 +43,9 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Autowired
     private JobRepository jobRepository;
+
+    @Autowired
+    private EmailService emailService;
 
     private User currentUser() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -249,6 +253,16 @@ public class ApplicationServiceImpl implements ApplicationService {
 
         Application updatedApplication =
                 applicationRepository.save(application);
+
+        // Send email to candidate
+        String candidateEmail = application.getUser().getEmail();
+        String jobTitle = application.getJob().getTitle();
+
+        emailService.sendApplicationStatusEmail(
+                candidateEmail,
+                jobTitle,
+                status.name()
+        );
 
         return toResponse(updatedApplication);
     }
