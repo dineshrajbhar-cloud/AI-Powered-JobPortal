@@ -2,6 +2,8 @@ package com.dinesh.jobportal.service;
 
 import com.dinesh.jobportal.dto.JobRequest;
 import com.dinesh.jobportal.dto.JobResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -26,6 +28,8 @@ public interface JobService {
             Double minSalary,
             Double maxSalary
     );
+
+    Page<JobResponse> getAllJobs(Pageable pageable);
 
 
 }

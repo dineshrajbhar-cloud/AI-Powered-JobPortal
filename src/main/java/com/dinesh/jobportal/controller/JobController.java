@@ -10,6 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
@@ -34,6 +38,27 @@ public class JobController {
     public ResponseEntity<List<JobResponse>> getAllJobs(){
         List<JobResponse> getAll = jobService.getAllJobs();
         return new ResponseEntity<>(getAll, HttpStatus.OK);
+    }
+
+    @GetMapping("/jobs/page")
+    @Tag(name = "Job APIs", description = "Endpoints for managing jobs")
+    @Operation(
+            description = "Get jobs with pagination and sorting",
+            summary = "API for paginated and sorted jobs"
+    )
+    public ResponseEntity<Page<JobResponse>> getJobsWithPagination(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "asc") String direction) {
+
+        Sort sort = direction.equalsIgnoreCase("desc")
+                ? Sort.by(sortBy).descending()
+                : Sort.by(sortBy).ascending();
+
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        return ResponseEntity.ok(jobService.getAllJobs(pageable));
     }
 
     @GetMapping("/jobs/{id}")

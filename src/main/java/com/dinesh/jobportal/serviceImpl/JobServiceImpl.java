@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 @Service
 public class JobServiceImpl implements JobService {
 
@@ -177,5 +180,26 @@ public class JobServiceImpl implements JobService {
                     return response;
                 })
                 .toList();
+    }
+
+    @Override
+    public Page<JobResponse> getAllJobs(Pageable pageable) {
+
+        Page<Job> jobs = jobRepository.findAll(pageable);
+
+        return jobs.map(job -> {
+
+            JobResponse response = new JobResponse();
+
+            response.setId(job.getId());
+            response.setTitle(job.getTitle());
+            response.setDescription(job.getDescription());
+            response.setCompany(job.getCompany());
+            response.setLocation(job.getLocation());
+            response.setSalary(job.getSalary());
+            response.setCreatedAt(job.getCreatedAt());
+
+            return response;
+        });
     }
 }
