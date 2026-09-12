@@ -8,5 +8,11 @@ import java.util.List;
 
 @Repository
 public interface ApplicationRepository extends JpaRepository<Application,Long> {
+
     List<Application> findByUserId(Long userId);
+
+    long countByUserId(Long userId);
+
+    long countByUserIdAndStatus(Long userId, String status);
+
 }
