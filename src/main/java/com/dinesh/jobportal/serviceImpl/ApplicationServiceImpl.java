@@ -162,7 +162,9 @@ public class ApplicationServiceImpl implements ApplicationService {
     public void uploadResume(Long applicationId, MultipartFile file) throws IOException {
 
         Application application = applicationRepository.findById(applicationId)
-                .orElseThrow(() -> new ResourceNotFoundException("Application not found with id: " + applicationId));
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Application not found with id: " + applicationId));
 
         assertOwnerOrRecruiter(application);
 
@@ -170,40 +172,70 @@ public class ApplicationServiceImpl implements ApplicationService {
             throw new IllegalArgumentException("File is empty");
         }
 
+        // Original filename
+        String original = StringUtils.cleanPath(
+                file.getOriginalFilename() == null
+                        ? ""
+                        : file.getOriginalFilename());
+
+        // File extension
+        String extension = original.contains(".")
+                ? original.substring(original.lastIndexOf('.')).toLowerCase()
+                : "";
+
+        // Content type
         String contentType = file.getContentType();
-        if (contentType == null || !(contentType.equals("application/pdf")
-                || contentType.equals("application/msword")
-                || contentType.equals("application/vnd.openxmlformats-officedocument.wordprocessingml.document"))) {
-            throw new IllegalArgumentException("Only PDF or Word documents are allowed");
+
+        // File type validation
+        boolean validPdf = ".pdf".equals(extension)
+                && ("application/pdf".equals(contentType)
+                || "application/octet-stream".equals(contentType));
+
+        boolean validDoc = ".doc".equals(extension)
+                && ("application/msword".equals(contentType)
+                || "application/octet-stream".equals(contentType));
+
+        boolean validDocx = ".docx".equals(extension)
+                && ("application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                .equals(contentType)
+                || "application/octet-stream".equals(contentType));
+
+        if (!(validPdf || validDoc || validDocx)) {
+            throw new IllegalArgumentException(
+                    "Only PDF or Word documents are allowed");
         }
 
+        // Maximum file size = 5 MB
         long maxSizeBytes = 5 * 1024 * 1024;
+
         if (file.getSize() > maxSizeBytes) {
-            throw new IllegalArgumentException("File too large (max 5MB)");
+            throw new IllegalArgumentException(
+                    "File too large (max 5MB)");
         }
 
+        // Upload directory
         String uploadDir = "uploads/resumes/";
+
         File directory = new File(uploadDir);
+
         if (!directory.exists()) {
             directory.mkdirs();
         }
 
-        String original = StringUtils.cleanPath(
-                file.getOriginalFilename() == null ? "" : file.getOriginalFilename());
-
-        String extension = original.contains(".")
-                ? original.substring(original.lastIndexOf('.'))
-                : "";
-
+        // Generate unique filename
         String filename = applicationId + "_" + UUID.randomUUID() + extension;
 
+        // Safe path
         Path path = Paths.get(uploadDir, filename).normalize();
+
         if (!path.startsWith(Paths.get(uploadDir).normalize())) {
             throw new IllegalArgumentException("Invalid file path");
         }
 
+        // Save file
         Files.copy(file.getInputStream(), path);
 
+        // Save path in database
         application.setResumePath(path.toString());
 
         applicationRepository.save(application);
