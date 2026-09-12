@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -200,6 +202,31 @@ public class ApplicationServiceImpl implements ApplicationService {
         application.setResumePath(path.toString());
 
         applicationRepository.save(application);
+    }
+
+    @Override
+    public Resource downloadResume(Long applicationId) throws IOException {
+
+        Application application = applicationRepository.findById(applicationId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Application not found with id: " + applicationId));
+
+        assertOwnerOrRecruiter(application);
+
+        if (application.getResumePath() == null || application.getResumePath().isBlank()) {
+            throw new ResourceNotFoundException("Resume not found for this application");
+        }
+
+        Path path = Paths.get(application.getResumePath()).normalize();
+
+        Resource resource = new UrlResource(path.toUri());
+
+        if (!resource.exists() || !resource.isReadable()) {
+            throw new ResourceNotFoundException("Resume file not found");
+        }
+
+        return resource;
     }
 
 }

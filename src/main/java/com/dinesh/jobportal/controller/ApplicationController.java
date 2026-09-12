@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 
 import java.io.IOException;
 import java.util.List;
@@ -74,5 +76,18 @@ public class ApplicationController {
                                                @RequestParam("resume")MultipartFile file) throws IOException {
         applicationService.uploadResume(id, file);
         return ResponseEntity.ok("Resume uploaded successfully");
+    }
+
+    @GetMapping("/{id}/resume")
+    @Tag(name = "Applications APIs", description = "APIs related to job applications")
+    @Operation(description = "Download Resume", summary = "API to download resume")
+    public ResponseEntity<Resource> downloadResume(@PathVariable Long id) throws IOException {
+
+        Resource resource = applicationService.downloadResume(id);
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=\"" + resource.getFilename() + "\"")
+                .body(resource);
     }
 }
