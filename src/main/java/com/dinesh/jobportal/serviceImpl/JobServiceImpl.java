@@ -39,7 +39,7 @@ public class JobServiceImpl implements JobService {
         response.setCompany(savedJob.getCompany());
         response.setLocation(savedJob.getLocation());
         response.setSalary(savedJob.getSalary());
-        response.setCreatedAt(LocalDateTime.now());
+        response.setCreatedAt(savedJob.getCreatedAt());
 
         return response;
     }
@@ -57,7 +57,7 @@ public class JobServiceImpl implements JobService {
                response.setCompany(job.getCompany());
                response.setLocation(job.getLocation());
                response.setSalary(job.getSalary());
-               response.setCreatedAt(LocalDateTime.now());
+               response.setCreatedAt(job.getCreatedAt());
 
                return response;
         }).toList();
@@ -77,7 +77,7 @@ public class JobServiceImpl implements JobService {
         response.setCompany(job.getCompany());
         response.setLocation(job.getLocation());
         response.setSalary(job.getSalary());
-        response.setCreatedAt(LocalDateTime.now());
+        response.setCreatedAt(job.getCreatedAt());
 
         return response;
     }
@@ -104,7 +104,7 @@ public class JobServiceImpl implements JobService {
         response.setCompany(savedJob.getCompany());
         response.setLocation(savedJob.getLocation());
         response.setSalary(savedJob.getSalary());
-        response.setCreatedAt(LocalDateTime.now());
+        response.setCreatedAt(job.getCreatedAt());
 
         return response;
     }
@@ -119,5 +119,25 @@ public class JobServiceImpl implements JobService {
         jobRepository.deleteById(id);
     }
 
+    @Override
+    public List<JobResponse> searchJobs(String title) {
 
+        List<Job> jobs = jobRepository.findByTitleContainingIgnoreCase(title);
+
+        return jobs.stream().map(job -> {
+
+            JobResponse response = new JobResponse();
+
+            response.setId(job.getId());
+            response.setTitle(job.getTitle());
+            response.setDescription(job.getDescription());
+            response.setCompany(job.getCompany());
+            response.setLocation(job.getLocation());
+            response.setSalary(job.getSalary());
+            response.setCreatedAt(job.getCreatedAt());
+
+            return response;
+
+        }).toList();
+    }
 }

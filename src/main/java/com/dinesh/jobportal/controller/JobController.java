@@ -62,4 +62,15 @@ public class JobController {
         return ResponseEntity.ok("Job deleted successfully!");
     }
 
+    @GetMapping("/jobs/search")
+    @Tag(name = "Job APIs", description = "Endpoints for managing jobs")
+    @Operation(description = "Search Jobs", summary = "API to search jobs by title")
+    public ResponseEntity<List<JobResponse>> searchJobs(
+            @RequestParam String title) {
+
+        List<JobResponse> jobs = jobService.searchJobs(title);
+
+        return ResponseEntity.ok(jobs);
+    }
+
 }
