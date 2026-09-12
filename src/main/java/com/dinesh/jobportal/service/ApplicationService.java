@@ -6,6 +6,7 @@ import com.dinesh.jobportal.dto.ApplicationResponse;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import org.springframework.core.io.Resource;
+import com.dinesh.jobportal.entity.ApplicationStatus;
 
 import java.util.List;
 
@@ -25,4 +26,6 @@ public interface ApplicationService {
     void uploadResume(Long applicationId, MultipartFile file) throws IOException;
 
     Resource downloadResume(Long applicationId) throws IOException;
+
+    ApplicationResponse updateStatus(Long applicationId, ApplicationStatus status);
 }

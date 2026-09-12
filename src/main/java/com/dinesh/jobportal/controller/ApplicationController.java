@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import com.dinesh.jobportal.entity.ApplicationStatus;
 
 import java.io.IOException;
 import java.util.List;
@@ -89,5 +90,21 @@ public class ApplicationController {
                 .header(HttpHeaders.CONTENT_DISPOSITION,
                         "attachment; filename=\"" + resource.getFilename() + "\"")
                 .body(resource);
+    }
+
+    @PatchMapping("/application/{id}/status")
+    @Tag(name = "Applications APIs", description = "APIs related to job applications")
+    @Operation(
+            description = "Update application status",
+            summary = "API to update application status"
+    )
+    public ResponseEntity<ApplicationResponse> updateStatus(
+            @PathVariable Long id,
+            @RequestParam ApplicationStatus status) {
+
+        ApplicationResponse response =
+                applicationService.updateStatus(id, status);
+
+        return ResponseEntity.ok(response);
     }
 }

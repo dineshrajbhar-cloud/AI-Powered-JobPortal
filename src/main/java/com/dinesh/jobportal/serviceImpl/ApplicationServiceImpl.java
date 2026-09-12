@@ -19,6 +19,7 @@ import org.springframework.core.io.UrlResource;
 
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+import com.dinesh.jobportal.entity.ApplicationStatus;
 
 import java.io.File;
 import java.io.IOException;
@@ -227,6 +228,29 @@ public class ApplicationServiceImpl implements ApplicationService {
         }
 
         return resource;
+    }
+
+    @Override
+    public ApplicationResponse updateStatus(
+            Long applicationId,
+            ApplicationStatus status) {
+
+        if (!isRecruiter()) {
+            throw new AccessDeniedException(
+                    "Only recruiters can update application status");
+        }
+
+        Application application = applicationRepository.findById(applicationId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Application not found with id: " + applicationId));
+
+        application.setStatus(status.name());
+
+        Application updatedApplication =
+                applicationRepository.save(application);
+
+        return toResponse(updatedApplication);
     }
 
 }
