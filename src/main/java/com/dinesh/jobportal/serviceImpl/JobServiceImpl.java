@@ -140,4 +140,42 @@ public class JobServiceImpl implements JobService {
 
         }).toList();
     }
+
+    @Override
+    public List<JobResponse> filterJobs(
+            String title,
+            String location,
+            String company,
+            Double minSalary,
+            Double maxSalary) {
+
+        List<Job> jobs = jobRepository.findAll();
+
+        return jobs.stream()
+                .filter(job -> title == null ||
+                        job.getTitle().toLowerCase().contains(title.toLowerCase()))
+                .filter(job -> location == null ||
+                        job.getLocation().toLowerCase().contains(location.toLowerCase()))
+                .filter(job -> company == null ||
+                        job.getCompany().toLowerCase().contains(company.toLowerCase()))
+                .filter(job -> minSalary == null ||
+                        job.getSalary() >= minSalary)
+                .filter(job -> maxSalary == null ||
+                        job.getSalary() <= maxSalary)
+                .map(job -> {
+
+                    JobResponse response = new JobResponse();
+
+                    response.setId(job.getId());
+                    response.setTitle(job.getTitle());
+                    response.setDescription(job.getDescription());
+                    response.setCompany(job.getCompany());
+                    response.setLocation(job.getLocation());
+                    response.setSalary(job.getSalary());
+                    response.setCreatedAt(job.getCreatedAt());
+
+                    return response;
+                })
+                .toList();
+    }
 }

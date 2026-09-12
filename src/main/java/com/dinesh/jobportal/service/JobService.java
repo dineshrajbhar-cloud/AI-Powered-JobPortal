@@ -19,5 +19,13 @@ public interface JobService {
 
     List<JobResponse> searchJobs(String title);
 
+    List<JobResponse> filterJobs(
+            String title,
+            String location,
+            String company,
+            Double minSalary,
+            Double maxSalary
+    );
+
 
 }

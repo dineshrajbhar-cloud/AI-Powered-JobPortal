@@ -73,4 +73,28 @@ public class JobController {
         return ResponseEntity.ok(jobs);
     }
 
+    @GetMapping("/jobs/filter")
+    @Tag(name = "Job APIs", description = "Endpoints for managing jobs")
+    @Operation(
+            description = "Filter jobs by title, location, company and salary",
+            summary = "API to filter jobs"
+    )
+    public ResponseEntity<List<JobResponse>> filterJobs(
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) String location,
+            @RequestParam(required = false) String company,
+            @RequestParam(required = false) Double minSalary,
+            @RequestParam(required = false) Double maxSalary) {
+
+        List<JobResponse> jobs = jobService.filterJobs(
+                title,
+                location,
+                company,
+                minSalary,
+                maxSalary
+        );
+
+        return ResponseEntity.ok(jobs);
+    }
+
 }
