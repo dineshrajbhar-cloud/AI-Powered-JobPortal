@@ -10,7 +10,6 @@ import com.dinesh.jobportal.repositories.ApplicationRepository;
 import com.dinesh.jobportal.repositories.JobRepository;
 import com.dinesh.jobportal.repositories.UserRepository;
 import com.dinesh.jobportal.service.ApplicationService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -298,6 +297,7 @@ public class ApplicationServiceImpl implements ApplicationService {
                 jobTitle,
                 status.name()
         );
+
 
         return toResponse(updatedApplication);
     }

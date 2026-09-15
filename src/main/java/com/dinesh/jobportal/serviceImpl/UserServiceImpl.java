@@ -7,7 +7,6 @@ import com.dinesh.jobportal.exception.DuplicateResourceException;
 import com.dinesh.jobportal.exception.ResourceNotFoundException;
 import com.dinesh.jobportal.repositories.UserRepository;
 import com.dinesh.jobportal.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

@@ -5,7 +5,6 @@ import com.dinesh.jobportal.repositories.ApplicationRepository;
 import com.dinesh.jobportal.repositories.DashboardRepository;
 import com.dinesh.jobportal.repositories.JobRepository;
 import com.dinesh.jobportal.service.DashboardService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service

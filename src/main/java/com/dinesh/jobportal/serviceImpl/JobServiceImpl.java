@@ -5,7 +5,6 @@ import com.dinesh.jobportal.dto.JobResponse;
 import com.dinesh.jobportal.entity.Job;
 import com.dinesh.jobportal.repositories.JobRepository;
 import com.dinesh.jobportal.service.JobService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
