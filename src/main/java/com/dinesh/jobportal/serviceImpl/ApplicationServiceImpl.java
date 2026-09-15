@@ -35,17 +35,20 @@ import java.util.UUID;
 @Service
 public class ApplicationServiceImpl implements ApplicationService {
 
-    @Autowired
-    private ApplicationRepository applicationRepository;
+    private final ApplicationRepository applicationRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private JobRepository jobRepository;
+    private final JobRepository jobRepository;
 
-    @Autowired
-    private EmailService emailService;
+    private final EmailService emailService;
+
+    public ApplicationServiceImpl(ApplicationRepository applicationRepository, UserRepository userRepository, JobRepository jobRepository, EmailService emailService) {
+        this.applicationRepository = applicationRepository;
+        this.userRepository = userRepository;
+        this.jobRepository = jobRepository;
+        this.emailService = emailService;
+    }
 
     private User currentUser() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();

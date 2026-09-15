@@ -14,11 +14,14 @@ import org.springframework.stereotype.Service;
 public class CandidateDashboardServiceImpl
         implements CandidateDashboardService {
 
-    @Autowired
-    private ApplicationRepository applicationRepository;
+    private final ApplicationRepository applicationRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    public CandidateDashboardServiceImpl(ApplicationRepository applicationRepository, UserRepository userRepository) {
+        this.applicationRepository = applicationRepository;
+        this.userRepository = userRepository;
+    }
 
     @Override
     public CandidateDashboardResponse getCandidateDashboard() {

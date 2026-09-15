@@ -11,14 +11,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class DashboardServiceImpl implements DashboardService {
 
-    @Autowired
-    private JobRepository jobRepository;
+    private final JobRepository jobRepository;
 
-    @Autowired
-    private ApplicationRepository applicationRepository;
+    private final ApplicationRepository applicationRepository;
 
-    @Autowired
-    private DashboardRepository dashboardRepository;
+    private final DashboardRepository dashboardRepository;
+
+    public DashboardServiceImpl(JobRepository jobRepository, ApplicationRepository applicationRepository, DashboardRepository dashboardRepository) {
+        this.jobRepository = jobRepository;
+        this.applicationRepository = applicationRepository;
+        this.dashboardRepository = dashboardRepository;
+    }
 
     @Override
     public RecruiterDashboardResponse getRecruiterDashboard() {

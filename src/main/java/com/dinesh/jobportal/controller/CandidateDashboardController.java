@@ -12,8 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/dashboard")
 public class CandidateDashboardController {
 
-    @Autowired
-    private CandidateDashboardService candidateDashboardService;
+
+    private final CandidateDashboardService candidateDashboardService;
+
+    public CandidateDashboardController(CandidateDashboardService candidateDashboardService) {
+        this.candidateDashboardService = candidateDashboardService;
+    }
 
     @GetMapping("/candidate")
     public ResponseEntity<CandidateDashboardResponse> getCandidateDashboard() {

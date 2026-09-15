@@ -17,8 +17,11 @@ import org.springframework.data.domain.Pageable;
 @Service
 public class JobServiceImpl implements JobService {
 
-    @Autowired
-    private JobRepository jobRepository;
+    private final JobRepository jobRepository;
+
+    public JobServiceImpl(JobRepository jobRepository) {
+        this.jobRepository = jobRepository;
+    }
 
     @Override
     public JobResponse createJob(JobRequest request) {

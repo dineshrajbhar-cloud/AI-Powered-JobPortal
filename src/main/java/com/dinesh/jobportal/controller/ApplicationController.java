@@ -22,8 +22,12 @@ import java.util.List;
 @RequestMapping("/api")
 public class ApplicationController {
 
-    @Autowired
-    private ApplicationService applicationService;
+
+    private final ApplicationService applicationService;
+
+    public ApplicationController(ApplicationService applicationService) {
+        this.applicationService = applicationService;
+    }
 
     @PostMapping("/application")
     @Tag(name = "Applications APIs", description = "APIs related to job applications")
