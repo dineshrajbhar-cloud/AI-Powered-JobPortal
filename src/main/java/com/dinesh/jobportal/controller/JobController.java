@@ -124,4 +124,12 @@ public class JobController {
         return ResponseEntity.ok(jobs);
     }
 
+    @GetMapping("/ai/jobs")
+    public ResponseEntity<List<JobResponse>> getJobsForAI() {
+
+        List<JobResponse> jobs = jobService.getAllJobs();
+
+        return ResponseEntity.ok(jobs);
+    }
+
 }
