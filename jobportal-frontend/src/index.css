@@ -1,0 +1,74 @@
+@import "tailwindcss";
+@import "@fontsource-variable/bricolage-grotesque";
+@import "@fontsource-variable/instrument-sans";
+
+@theme {
+  --font-display: "Bricolage Grotesque Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Instrument Sans Variable", ui-sans-serif, system-ui, sans-serif;
+
+  --color-ink: #0c1230;
+  --color-muted: #566080;
+  --color-faint: #8b93ad;
+  --color-canvas: #f6f7fb;
+  --color-line: #e2e5f0;
+  --color-brand: #2540f0;
+  --color-brand-strong: #1a2fc4;
+  --color-brand-soft: #eef0ff;
+}
+
+@layer base {
+  *, ::after, ::before, ::backdrop, ::file-selector-button {
+    border-color: var(--color-line);
+  }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    background: var(--color-canvas);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 2px;
+  }
+  button:not(:disabled), [role="button"]:not(:disabled), select:not(:disabled) { cursor: pointer; }
+}
+
+/* Native <dialog> styling (used by Modal and the mobile drawer) */
+dialog::backdrop {
+  background: rgb(12 18 48 / 0.45);
+  backdrop-filter: blur(2px);
+}
+dialog[open] { animation: dialog-in 160ms ease-out; }
+dialog.drawer[open] { animation: drawer-in 200ms ease-out; }
+@keyframes dialog-in {
+  from { opacity: 0; transform: translateY(8px) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes drawer-in {
+  from { transform: translateX(-100%); }
+  to { transform: none; }
+}
+
+/* Indeterminate bar used while the AI matcher is working */
+@keyframes scan {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(350%); }
+}
+.scan-bar { animation: scan 1.4s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
