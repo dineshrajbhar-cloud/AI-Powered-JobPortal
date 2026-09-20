@@ -1,369 +1,328 @@
-# 🚀 Job Portal Backend API
+# 🚀 AI-Powered Job Portal
 
 ![Java](https://img.shields.io/badge/Java-17-orange)
 ![Spring Boot](https://img.shields.io/badge/Spring_Boot-4.x-brightgreen)
 ![Spring Security](https://img.shields.io/badge/Spring_Security-JWT-success)
+![React](https://img.shields.io/badge/React-18-blue)
+![Python](https://img.shields.io/badge/Python-3.x-yellow)
+![FastAPI](https://img.shields.io/badge/FastAPI-API-009688)
+![Groq AI](https://img.shields.io/badge/Groq-AI-orange)
 ![MySQL](https://img.shields.io/badge/MySQL-Database-blue)
 ![Swagger](https://img.shields.io/badge/Swagger-OpenAPI-green)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
 
----
-
-# 📌 Overview
-
-Job Portal Backend API is a secure RESTful backend application built using **Java**, **Spring Boot**, **Spring Security**, and **JWT Authentication**.
-
-The application enables users to securely register, log in, manage job postings, and apply for jobs while following clean architecture and REST API best practices.
+> A full-stack AI-powered job portal that connects candidates and recruiters with intelligent resume analysis and AI-based job matching.
 
 ---
 
-# ✨ Features
+## 📌 Overview
 
-## Authentication
+**AI-Powered Job Portal** is a full-stack recruitment platform built using **Spring Boot, React, FastAPI and Groq AI**.
 
-* User Registration
-* User Login
-* JWT Authentication
-* BCrypt Password Encryption
-* Stateless Authentication
+The platform provides separate workflows for **Candidates** and **Recruiters**, including job management, job applications, resume handling, application tracking and dashboards.
 
-## User Module
+The application also integrates an **AI-powered Resume Job Matcher** that analyzes a candidate's resume and compares it with available job postings to generate:
 
-* Create User
-* Update User
-* Delete User
-* Get User by ID
-* Get All Users
+- Match percentage
+- Matching job details
+- AI-generated matching reason
+- Suitable job recommendations
 
-## Job Module
-
-* Create Job
-* Update Job
-* Delete Job
-* Get Job by ID
-* Get All Jobs
-
-## Application Module
-
-* Apply for Job
-* Update Application
-* Delete Application
-* View Applications
-
-## Additional Features
-
-* DTO Pattern
-* Bean Validation
-* Global Exception Handling
-* Custom Exceptions
-* Swagger Documentation
-* MySQL Integration
+The project follows a service-oriented architecture where the main backend is developed using Spring Boot and the AI service is developed using Python and FastAPI.
 
 ---
+
+# ✨ Key Features
+
+## 🔐 Authentication & Security
+
+- User Registration
+- User Login
+- JWT Authentication
+- BCrypt Password Encryption
+- Role-Based Authorization
+- Candidate & Recruiter Roles
+- Protected REST APIs
+- Stateless Authentication
+
+---
+
+## 👤 Candidate Features
+
+- Candidate Registration & Login
+- Browse Jobs
+- Search Jobs
+- Filter Jobs
+- View Job Details
+- Apply for Jobs
+- Upload Resume
+- Track Applications
+- View Application Status
+- Candidate Dashboard
+- AI Resume Job Matching
+- AI Match Percentage
+- AI Match Explanation
+
+---
+
+## 💼 Recruiter Features
+
+- Recruiter Registration & Login
+- Recruiter Dashboard
+- Create Jobs
+- Update Jobs
+- Delete Jobs
+- Manage Job Postings
+- View Applicants
+- Update Application Status
+- Application Management
+- Email Notifications
+
+---
+
+# 🤖 AI Features
+
+The project includes a separate AI microservice built using **Python + FastAPI**.
+
+### AI Resume Analysis
+
+The AI service extracts text from uploaded PDF resumes and analyzes:
+
+- Professional Summary
+- Technical Skills
+- Education
+- Projects
+- Experience
+- Strengths
+- Recommended Skills
+
+### AI Job Matching
+
+The AI service:
+
+1. Receives the candidate's resume.
+2. Extracts resume text.
+3. Fetches available jobs from Spring Boot.
+4. Sends resume and job data to Groq AI.
+5. Analyzes compatibility.
+6. Returns structured JSON results.
+
+Example:
+
+```json
+{
+  "matchedJobs": [
+    {
+      "jobId": 1,
+      "title": "Java Backend Developer",
+      "company": "Test Company",
+      "location": "Bangalore",
+      "salary": 800000,
+      "matchPercentage": 92,
+      "reason": "Strong Java, Spring Boot, REST API and backend development experience."
+    }
+  ]
+}
+
+System Architecture
+
+                         ┌─────────────────────┐
+                         │      React UI        │
+                         │   Frontend :5173     │
+                         └──────────┬──────────┘
+                                    │
+                                    ▼
+                         ┌─────────────────────┐
+                         │    Spring Boot      │
+                         │    Backend :9090     │
+                         └──────────┬──────────┘
+                                    │
+                 ┌──────────────────┼──────────────────┐
+                 │                  │                  │
+                 ▼                  ▼                  ▼
+          ┌─────────────┐   ┌──────────────┐   ┌─────────────┐
+          │    MySQL    │   │ JWT Security │   │   Swagger   │
+          └─────────────┘   └──────────────┘   └─────────────┘
+                                    │
+                                    ▼
+                         ┌─────────────────────┐
+                         │    FastAPI AI       │
+                         │    Service :8000    │
+                         └──────────┬──────────┘
+                                    │
+                                    ▼
+                         ┌─────────────────────┐
+                         │      Groq AI        │
+                         └─────────────────────┘
+
+📂 Project Structure
+
+jobportal/
+│
+├── src/
+│   └── main/
+│       └── java/
+│           └── com/dinesh/jobportal/
+│               ├── config/
+│               ├── controller/
+│               ├── dto/
+│               ├── entity/
+│               ├── exception/
+│               ├── repositories/
+│               ├── security/
+│               ├── service/
+│               └── serviceImpl/
+│
+├── ai-service/
+│   ├── main.py
+│   ├── groq_service.py
+│   ├── job_service.py
+│   ├── models.py
+│   ├── requirements.txt
+│   └── venv/
+│
+├── jobportal-frontend/
+│   ├── src/
+│   ├── public/
+│   ├── package.json
+│   ├── vite.config.js
+│   └── README.md
+│
+├── pom.xml
+└── README.md
+
+🔄 AI Job Matching Flow
+
+Candidate
+    │
+    │ Upload Resume
+    ▼
+React Frontend
+    │
+    ▼
+Spring Boot
+    │
+    │ Multipart Request
+    ▼
+FastAPI AI Service
+    │
+    ├── Extract Resume Text
+    │
+    ├── Fetch Available Jobs
+    │
+    ▼
+Groq AI
+    │
+    │ Analyze & Match
+    ▼
+Structured JSON Response
+    │
+    ▼
+Spring Boot
+    │
+    ▼
+React Frontend
+    │
+    ▼
+Match Percentage + Reason
+
+🔐 Authentication Flow
+
+User Login
+    │
+    ▼
+Spring Security
+    │
+    ▼
+User Authentication
+    │
+    ▼
+JWT Generated
+    │
+    ▼
+Authentication Cookie
+    │
+    ▼
+JWT Authentication Filter
+    │
+    ▼
+Protected REST API
+
+🛠 Tech Stack
 
 # 🛠 Tech Stack
 
-| Technology      | Used        |
-| --------------- | ----------- |
-| Java            | 17          |
-| Spring Boot     | 4.x         |
-| Spring Security | ✔           |
-| JWT             | JJWT 0.12.7 |
-| Spring Data JPA | ✔           |
-| Hibernate       | ✔           |
-| MySQL           | ✔           |
-| Maven           | ✔           |
-| Swagger OpenAPI | ✔           |
-| Lombok          | ✔           |
+| Technology | Purpose |
+|------------|---------|
+| Java 17 | Backend Development |
+| Spring Boot 4.x | REST API Development |
+| Spring Security | Authentication & Authorization |
+| JWT | Secure Authentication |
+| Spring Data JPA | Database Access |
+| Hibernate | ORM |
+| MySQL | Relational Database |
+| Maven | Build & Dependency Management |
+| Swagger / OpenAPI | API Documentation |
+| React | Frontend Development |
+| JavaScript | Frontend Logic |
+| FastAPI | AI Microservice |
+| Python | AI Service |
+| Groq AI | AI Processing |
+| PyPDF | Resume PDF Extraction |
+| Axios | Frontend API Communication |
+| Tailwind CSS | Frontend Styling |
 
----
+🗄 Database
 
-# 🏗 Project Architecture
+# 🗄 Database
 
-```
-                Client
-                   │
-                   ▼
-          REST Controllers
-                   │
-                   ▼
-              Service Layer
-                   │
-                   ▼
-            Repository Layer
-                   │
-                   ▼
-                 MySQL
-```
-
----
-
-# 📂 Project Structure
-
-```
-src
- ├── authenticationDTO
- ├── config
- ├── controller
- ├── entity
- ├── exception
- ├── repositories
- ├── security
- │     ├── jwt
- │     └── services
- ├── service
- ├── serviceImpl
- └── JobPortalApplication
-```
-
----
-
-# 🗄 Database Design
+The application uses **MySQL** as the relational database with **Spring Data JPA** and **Hibernate** for database interaction.
 
 ## User
 
-| Column   | Type   |
-| -------- | ------ |
-| id       | Long   |
-| name     | String |
-| email    | String |
+| Field | Type |
+|------|------|
+| id | Long |
+| name | String |
+| email | String |
 | password | String |
-| role     | Enum   |
-
----
+| role | Enum |
 
 ## Job
 
-| Column      | Type          |
-| ----------- | ------------- |
-| id          | Long          |
-| title       | String        |
-| description | String        |
-| company     | String        |
-| location    | String        |
-| salary      | Double        |
-| createdAt   | LocalDateTime |
-
----
+| Field | Type |
+|------|------|
+| id | Long |
+| title | String |
+| description | String |
+| company | String |
+| location | String |
+| salary | Double |
+| createdAt | LocalDateTime |
 
 ## Application
 
-| Column    | Type          |
-| --------- | ------------- |
-| id        | Long          |
-| status    | String        |
+| Field | Type |
+|------|------|
+| id | Long |
+| status | String |
 | appliedAt | LocalDateTime |
-| user      | ManyToOne     |
-| job       | ManyToOne     |
+| user | ManyToOne |
+| job | ManyToOne |
+| resumePath | String |
 
----
-
-# 🔐 JWT Authentication Flow
-
-```
-Client Login
-      │
-      ▼
-AuthenticationManager
-      │
-      ▼
-UserDetailsService
-      │
-      ▼
-Database
-      │
-      ▼
-JWT Token Generated
-      │
-      ▼
-Client Stores Token
-      │
-      ▼
-Authorization: Bearer <TOKEN>
-      │
-      ▼
-JWT Filter
-      │
-      ▼
-Protected API
-```
-
----
-
-# 📚 REST API Endpoints
-
-## Authentication
-
-| Method | Endpoint         |
-| ------ | ---------------- |
-| POST   | /api/auth/signup |
-| POST   | /api/auth/login  |
-
----
-
-## Users
-
-| Method | Endpoint        |
-| ------ | --------------- |
-| POST   | /api/users      |
-| GET    | /api/users      |
-| GET    | /api/users/{id} |
-| PUT    | /api/users/{id} |
-| DELETE | /api/users/{id} |
-
----
-
-## Jobs
-
-| Method | Endpoint       |
-| ------ | -------------- |
-| POST   | /api/jobs      |
-| GET    | /api/jobs      |
-| GET    | /api/jobs/{id} |
-| PUT    | /api/jobs/{id} |
-| DELETE | /api/jobs/{id} |
-
----
-
-## Applications
-
-| Method | Endpoint               |
-| ------ | ---------------------- |
-| POST   | /api/applications      |
-| GET    | /api/applications      |
-| GET    | /api/applications/{id} |
-| PUT    | /api/applications/{id} |
-| DELETE | /api/applications/{id} |
-
----
-
-# 📖 Swagger
-
-Open Swagger UI
-
-```
-http://localhost:8080/swagger-ui/index.html
-```
-
-OpenAPI Documentation
-
-```
-http://localhost:8080/v3/api-docs
-```
-
----
-
-# ⚙ Installation
-
-Clone Repository
-
-```bash
-git clone https://github.com/YOUR_GITHUB_USERNAME/jobportal.git
-```
-
-Navigate
-
-```bash
-cd jobportal
-```
-
-Run
-
-```bash
-mvn spring-boot:run
-```
-
----
-
-# 🔧 Configure Database
-
-```properties
-spring.datasource.url=jdbc:mysql://localhost:3306/jobportal
-
-spring.datasource.username=root
-
-spring.datasource.password=YOUR_PASSWORD
-
-spring.jpa.hibernate.ddl-auto=update
-```
-
----
-
-# 🔑 JWT Configuration
-
-```properties
-jwt.secret=YOUR_SECRET_KEY
-
-jwt.expiration=86400000
-```
-
----
-
-# 🧪 Testing
-
-The APIs were tested using:
-
-* Swagger UI
-* Postman
-
----
-
-# 📸 Screenshots
-
-Add screenshots here after uploading them.
-
-* Swagger UI
-* Login API
-* JWT Token Response
-* Database Tables
-
----
-
-# 📈 Future Enhancements
-
-* Role Based Authorization
-* Refresh Token
-* Docker
-* Microservices
-* API Gateway
-* Config Server
-* Service Discovery
-* Kafka
-* AWS Deployment
-
----
-
-# 💡 Key Learnings
-
-Through this project I learned:
-
-* Spring Boot REST API Development
-* Layered Architecture
-* DTO Pattern
-* Spring Data JPA
-* Entity Relationships
-* Bean Validation
-* Global Exception Handling
-* Spring Security
-* JWT Authentication
-* Swagger Documentation
-
----
+👨‍💻 Author
 
 # 👨‍💻 Author
 
 **Dinesh Rajbhar**
 
-Java Backend Developer
+Java Backend / Full-Stack Developer
 
-GitHub:
-https://github.com/Dinesh-colud
+### GitHub
 
-LinkedIn:
-www.linkedin.com/in/dineshrajbharjavadeveloper
+https://github.com/dineshrajbhar-cloud
 
----
+### LinkedIn
 
-## ⭐ Support
-
-If you found this project useful, consider giving it a **⭐ Star** on GitHub.
+https://www.linkedin.com/in/dineshrajbharjavadeveloper
