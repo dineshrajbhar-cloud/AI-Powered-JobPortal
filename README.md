@@ -10,6 +10,10 @@
 ![MySQL](https://img.shields.io/badge/MySQL-Database-blue)
 ![Swagger](https://img.shields.io/badge/Swagger-OpenAPI-green)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
+![Groq AI](https://img.shields.io/badge/Groq-AI-orange)
+![MySQL](https://img.shields.io/badge/MySQL-Database-blue)
+![Swagger](https://img.shields.io/badge/Swagger-OpenAPI-green)
+![License](https://img.shields.io/badge/License-MIT-yellow)
 
 > A full-stack AI-powered job portal that connects candidates and recruiters with intelligent resume analysis and AI-based job matching.
 
@@ -106,6 +110,22 @@ The AI service:
 4. Sends resume and job data to Groq AI.
 5. Analyzes compatibility.
 6. Returns structured JSON results.
+
+## 🐳 Docker
+
+This project is fully Dockerized using **Docker Compose**.
+
+### Services
+
+- **Frontend** — React + Nginx
+- **Backend** — Spring Boot
+- **AI Service** — FastAPI + Groq AI
+- **Database** — MySQL 8
+
+### Run with Docker
+
+```bash
+docker compose up -d --build
 
 Example:
 
