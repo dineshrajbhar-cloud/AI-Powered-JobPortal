@@ -1,3 +1,4 @@
+import os
 import httpx
 
 
@@ -5,8 +6,13 @@ class JobService:
 
     def get_jobs(self):
 
+        backend_url = os.getenv(
+            "BACKEND_URL",
+            "http://localhost:9090"
+        )
+
         response = httpx.get(
-            "http://localhost:9090/api/ai/jobs"
+            f"{backend_url}/api/ai/jobs"
         )
 
         response.raise_for_status()

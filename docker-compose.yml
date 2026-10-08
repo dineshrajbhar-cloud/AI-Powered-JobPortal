@@ -1,0 +1,63 @@
+services:
+
+  mysql:
+    image: mysql:8.0
+    container_name: jobportal-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: jobportal123
+      MYSQL_DATABASE: jobportal
+    ports:
+      - "3308:3306"
+    volumes:
+      - jobportal-mysql-data:/var/lib/mysql
+    networks:
+      - jobportal-network
+
+  backend:
+    image: jobportal-backend:latest
+    container_name: jobportal-backend
+    depends_on:
+      - mysql
+    ports:
+      - "9090:9090"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/jobportal
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: jobportal123
+      JWT_SECRET: AIJobPortal-Docker-JWT-Secret-2026-Secure-Key-9x7K2m4P8q6R
+      MAIL_USERNAME: ""
+      MAIL_PASSWORD: ""
+      AI_SERVICE_URL: http://ai-service:8000
+    networks:
+      - jobportal-network
+
+  ai-service:
+    image: jobportal-ai:latest
+    container_name: jobportal-ai
+    depends_on:
+      - backend
+    ports:
+      - "8000:8000"
+    environment:
+      GROQ_API_KEY: ${GROQ_API_KEY}
+      BACKEND_URL: http://backend:9090
+    networks:
+      - jobportal-network
+
+  frontend:
+    build:
+      context: ./jobportal-frontend
+      dockerfile: Dockerfile
+    container_name: jobportal-frontend
+    depends_on:
+      - backend
+    ports:
+      - "3000:80"
+    networks:
+      - jobportal-network
+
+networks:
+  jobportal-network:
+
+volumes:
+  jobportal-mysql-data:

@@ -9,11 +9,15 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.beans.factory.annotation.Value;
 
 @Service
 public class AiServiceImpl implements AiService {
 
     private final RestTemplate restTemplate;
+
+    @Value("${ai.service.url:http://localhost:8000}")
+    private String aiServiceUrl;
 
     public AiServiceImpl(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
@@ -22,7 +26,7 @@ public class AiServiceImpl implements AiService {
     @Override
     public AiJobMatchResponse matchJobs(MultipartFile file) {
 
-        String url = "http://localhost:8000/ai/match-jobs";
+        String url = aiServiceUrl + "/ai/match-jobs";
 
         try {
 

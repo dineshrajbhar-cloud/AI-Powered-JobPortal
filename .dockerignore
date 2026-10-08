@@ -1,0 +1,13 @@
+target/
+.git/
+.idea/
+.vscode/
+
+ai-service/venv/
+ai-service/__pycache__/
+ai-service/temp_resume.pdf
+
+jobportal-frontend/node_modules/
+jobportal-frontend/dist/
+
+uploads/
