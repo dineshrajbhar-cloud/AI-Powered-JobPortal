@@ -70,6 +70,8 @@ SecurityConfig {
                                 .requestMatchers(HttpMethod.GET, "/api/application/**").hasAnyRole("RECRUITER", "CANDIDATE")
                                 .requestMatchers(HttpMethod.POST, "/api/application/**").hasRole("CANDIDATE")
                                 .requestMatchers(HttpMethod.PUT, "/api/application/**").hasAnyRole("RECRUITER", "CANDIDATE")
+                                .requestMatchers(HttpMethod.PATCH, "/api/application/*/status")
+                                .hasRole("RECRUITER")
                                 .requestMatchers(HttpMethod.DELETE, "/api/application/**").hasAnyRole("RECRUITER", "CANDIDATE")
 
 
